@@ -14,6 +14,11 @@ twilio_num = '+18324635638'
 def index():
 	return render_template('index.html')
 
+@app.route('/kitty.png')
+def favicon():
+	return send_from_directory(os.path.join(app.root_path, 'static'),
+		'kitty.png', mimetype='image/x-icon')
+
 @app.route('/invalid/')
 def invalid():
 	return render_template('index_invalid.html')
