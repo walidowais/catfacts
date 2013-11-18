@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for, render_template
+from flask import Flask, request, redirect, url_for, render_template, send_from_directory
 from twilio.rest import TwilioRestClient
 import sqlite3
 import os
@@ -16,7 +16,7 @@ def index():
 
 @app.route('/kitty.png')
 def favicon():
-	return send_from_directory(os.path.join(app.root_path, 'static'),
+	return send_from_directory(os.path.join(app.root_path, 'templates'),
 		'kitty.png', mimetype='image/x-icon')
 
 @app.route('/invalid/')
