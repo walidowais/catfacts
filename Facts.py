@@ -1,7 +1,8 @@
-import random
 import time
+import random
 import twilio
 import sqlite3
+import datetime
 from twilio.rest import TwilioRestClient
 
 twilio_sid = 'AC7a648d772558bc3a02206c2a4b840ad8'
@@ -16,13 +17,13 @@ def main():
 	while 1 == 1:
 		with open('string1.txt') as f:
 			Intros = f.readlines()
-		f.close()
+		# f.close()
 		with open('string2.txt') as b:
 			Body = b.readlines()
-		f.close()
+		# f.close()
 		with open('string3.txt') as t:
 			Thing = t.readlines()
-		f.close()
+		# f.close()
 		#with open('Fact.txt') as fa:
 		#	Facts = fa.readlines()
 
@@ -31,9 +32,9 @@ def main():
 		s3 = random.choice(Thing)
 		#s4 = random.choice(Facts)
 
-		sfinal = "#CATFACTS: " + s1 + s2 + s3 #+ s4
-		sfinal = sfinal.replace("\n", " ")
-		print sfinal
+		strpre = "#CATFACTS: " + s1 + s2 + s3 #+ s4
+		strfinal = strpre.replace("\n", " ")
+		print strfinal
 
 		time.sleep(5)
 		with con:
@@ -44,8 +45,8 @@ def main():
 
 		for row in rows:
 			try:
-				client = TwilioRestClient(account_sid, auth_token) 
-				message = client.messages.create(to= ('+'+row[0]), from_= myNum, body= sfinal)
+				client = TwilioRestClient(twilio_sid, twilio_tok) 
+				message = client.messages.create(to= ('+'+row[0]), from_= twilio_num, body= strfinal)
 			except twilio.TwilioRestException as e:
 				print e
 				fileout = open('output.txt', 'w')

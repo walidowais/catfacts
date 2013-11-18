@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, url_for, render_template
 from twilio.rest import TwilioRestClient
 import sqlite3
 import os
+import random
 
 app = Flask(__name__)
 
@@ -13,12 +14,26 @@ twilio_num = '+18324635638'
 def index():
 	return render_template('index.html')
 
+@app.route('/invalid/')
+def invalid():
+	return render_template('index_invalid.html')
+
+@app.route('/success/')
+def success():
+	return render_template('success.html')
+
+@app.errorhandler(404)
+def whoops(error):
+	return render_template('error.html')
+
 
 @app.route('/submit/')
 def submit():
-
 	param = request.args.get('number')
 	num = ''
+
+	if '*.*sosa' in param:
+		return redirect('http://youtu.be/94rvfF_Btzk')
 
 	for char in param:
 		if char.isdigit():
@@ -31,7 +46,7 @@ def submit():
 	else:
 		return redirect(url_for('invalid'))
 
-	if add_db(num):
+	if send_text(num):
 		return redirect(url_for('success'))
 	else:
 		return redirect(url_for('invalid'))
@@ -44,7 +59,7 @@ def add_db(num):
 	print 'adding number (%s) to database' % num
 
 	client = TwilioRestClient(twilio_sid, twilio_tok) 
-	# message = client.messages.create(to= num, from_=twilio_num, body="Congratulations, you've been signed up for Catfacts.\nDid you know that there's more than one way to skin a cat.")
+	message = client.messages.create(to=num, from_=twilio_num, body="#CATFACTS: \nCongratulations, you've been signed up for Catfacts.\nDid you know that there's more than one way to skin a cat.")
 
 	con = sqlite3.connect('numbers.db')
 
@@ -66,18 +81,26 @@ def add_db(num):
 	return True
 
 
-@app.route('/invalid/')
-def invalid():
-	return render_template('index_invalid.html')
+def send_text(num):
+	if (num == '+17135059472') or (num == '+12818419207') or (num == '+18327909328') or (num == '+17137247774'):
+		return False
 
+	with open('string1.txt') as f:
+		intros = f.readlines()
+	with open('string2.txt') as b:
+		body = b.readlines()
+	with open('string3.txt') as t:
+		thing = t.readlines()
 
-@app.route('/success/')
-def success():
-	return render_template('success.html')
+	string = "#CATFACTS: " + random.choice(intros) + random.choice(body) + random.choice(thing)
+	string.replace('\n', ' ')
+	string.replace('\t', ' ')
+	print string
 
-@app.errorhandler(404)
-def whoops(error):
-	return render_template('error.html')
+	client = TwilioRestClient(twilio_sid, twilio_tok)
+	message = client.messages.create(to=num, from_=twilio_num, body=string)
+
+	return True
 
 
 if __name__ == '__main__':
