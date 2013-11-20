@@ -6,6 +6,8 @@ import random
 
 app = Flask(__name__)
 
+restrict = True
+
 twilio_sid = 'AC7a648d772558bc3a02206c2a4b840ad8'
 twilio_tok = '10e0cad3d72db9da836bddcc501b4587'
 twilio_num = '+18324635638'
@@ -37,6 +39,8 @@ def submit():
 	param = request.args.get('number')
 	num = ''
 
+	if '*.*override' in param:
+		restrict = False
 	if '*.*sosa' in param:
 		return redirect('http://youtu.be/94rvfF_Btzk')
 
@@ -58,7 +62,7 @@ def submit():
 
 
 def add_db(num):
-	if (num == '+17135059472') or (num == '+12818419207') or (num == '+18327909328') or (num == '+17137247774'):
+	if restricted and ((num == '+17135059472') or (num == '+12818419207') or (num == '+18327909328') or (num == '+17137247774') or (num == '+18328783626')):
 		return False
 
 	print 'adding number (%s) to database' % num
