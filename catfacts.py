@@ -39,8 +39,6 @@ def submit():
 	param = request.args.get('number')
 	num = ''
 
-	if '*.*override' in param:
-		restrict = False
 	if '*.*sosa' in param:
 		return redirect('http://youtu.be/94rvfF_Btzk')
 
@@ -91,7 +89,7 @@ def add_db(num):
 
 
 def send_text(num):
-	if restrict and (num == '+17135059472') or (num == '+12818419207') or (num == '+18327909328') or (num == '+17137247774') or (num == '+18328783626'):
+	if (num == '+17135059472') or (num == '+12818419207') or (num == '+18327909328') or (num == '+17137247774') or (num == '+18328783626'):
 		return False
 
 	with open('string1.txt') as f:
