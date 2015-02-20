@@ -36,9 +36,10 @@ def whoops(error):
 	return render_template('error.html')
 
 
-@app.route('/submit/')
+@app.route('/submit/', methods=['POST'])
 def submit():
-	param = request.args.get('number')
+
+	param = request.form['number']
 	num = ''
 
 	if '*.*sosa' in param:
@@ -101,9 +102,7 @@ def send_text(num):
 	with open('string3.txt') as t:
 		thing = t.readlines()
 
-	string = "#CATFACTS: " + random.choice(intros) + random.choice(body) + random.choice(thing)
-	string.replace('\n', ' ')
-	string.replace('\t', ' ')
+	string = "#CATFACTS: " + random.choice(intros).rstrip() + " " + random.choice(body).rstrip() + " " + random.choice(thing).rstrip()
 	print string
 
 	client = TwilioRestClient(twilio_sid, twilio_tok)
