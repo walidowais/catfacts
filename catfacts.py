@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory
 from twilio.rest import TwilioRestClient
 import sqlite3
