@@ -92,7 +92,7 @@ def add_db(num):
 
 
 def send_text(num):
-	if (num == '+17135059472') or (num == '+12818419207') or (num == '+18327909328') or (num == '+17137247774') or (num == '+18328783626'):
+	if (num == '+17135059472') or (num == '+12818419207') or (num == '+18327909328') or (num == '+17137247774'):
 		return False
 
 	with open('string1.txt') as f:
